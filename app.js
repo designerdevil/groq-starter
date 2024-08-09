@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import logger from "morgan";
 import { fileURLToPath } from 'url';
-import indexRouter from "./routes/index.js";
+import indexRouter from "./app/routes/index.js";
 
 var app = express();
 app.use(bodyParser.json());
@@ -15,9 +15,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set("view engine", "hbs");
 app.set("views", [
-    path.join(__dirname, "views")
+    path.join(__dirname, "app/views")
 ])
-const partialsDir = __dirname + "/views/partials";
+const partialsDir = __dirname + "/app/views/partials";
 const filenames = fs.readdirSync(partialsDir);
 
 filenames.forEach(function (filename) {

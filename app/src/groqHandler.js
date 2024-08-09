@@ -8,7 +8,6 @@ export async function resultExtractor(messageArray) {
 	const chatCompletion = await getGroqChatCompletion(messageArray);
 	// Print the completion returned by the LLM.
 	const result = chatCompletion.choices[0]?.message?.content || "";
-	console.log(result);
 	return result;
 }
 
