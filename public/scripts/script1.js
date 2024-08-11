@@ -1,6 +1,5 @@
 
 const generateInput = document.getElementById('textgenInput');
-const includeWebResult = document.getElementById('includeWebResult');
 const selectedType = document.getElementById('selectType');
 const generateBtn = document.getElementById('textgenButton');
 const responseContainer = document.getElementById('textgenResponse');
@@ -28,7 +27,6 @@ function fetchData(e) {
     post('http://localhost:3000/textgeneration', {
         userInput: generateInput.value,
         selectedType: selectedType.value,
-        includeWebResult: includeWebResult.value
     })
         .then(function (responseData) {
             if (!responseData) {

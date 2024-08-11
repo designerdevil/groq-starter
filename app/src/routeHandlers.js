@@ -17,11 +17,12 @@ export const renderHandler = (req, res, next) => {
 
 export const textgenerationHandler = async (req, res, next) => {
 	const userInput = req.body.userInput;
+	// Select Type is either "RAG" or "Non - RAG"
 	const selectedType = req.body.selectedType;
 	let promptArray;
 	if (selectedType === "rag") {
-		const includeWebResult = req.body.includeWebResult;
-		const url = `http://localhost:3001/get-context?question=${userInput}${(includeWebResult === 'yes') ? '&fromWeb=true' : ''}`;
+		// Make a call to Rag Pipeline to retrieve context
+		const url = `http://localhost:3001/get-context?question=${userInput}`;
 		const apiCallResp = await fetch(url);
 		const apiResponseContext = await apiCallResp.json();
 		// example of prompt crafting based on context
@@ -30,9 +31,8 @@ export const textgenerationHandler = async (req, res, next) => {
 				role: "system",
 				content: `You are an assistant that use this context for responding.
 				Context: ${apiResponseContext.join('\n')}
-				
 	
-				Respond to below input using above Context
+				Respond to below input using above Context and Web Search Result
 				Input: ${userInput} 
 				If there is no context simply respond "I am not able to respond"
 				`
@@ -49,10 +49,12 @@ export const textgenerationHandler = async (req, res, next) => {
 	res.json({ response: result });
 }
 
+
 export const modelHandler = (req, res, next) => {
 	const features = {
 		title: 'Generative AI Models'
 	}
+	// Getting list of all models available in groq
 	const result = getModels();
 	result.then((models) => {
 		const modelslist = models.data;
