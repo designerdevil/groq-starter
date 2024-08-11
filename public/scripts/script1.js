@@ -1,5 +1,6 @@
 
 const generateInput = document.getElementById('textgenInput');
+const includeWebResult = document.getElementById('includeWebResult');
 const selectedType = document.getElementById('selectType');
 const generateBtn = document.getElementById('textgenButton');
 const responseContainer = document.getElementById('textgenResponse');
@@ -24,7 +25,11 @@ const post = (url, params) => request(url, params, 'POST');
 function fetchData(e) {
     e.preventDefault();
     responseContainer.innerHTML = "<strong>Please wait: Processing with Model... Please wait</strong>"
-    post('http://localhost:3000/textgeneration', { userInput: generateInput.value, selectedType: selectedType.value })
+    post('http://localhost:3000/textgeneration', {
+        userInput: generateInput.value,
+        selectedType: selectedType.value,
+        includeWebResult: includeWebResult.value
+    })
         .then(function (responseData) {
             if (!responseData) {
                 console.log(

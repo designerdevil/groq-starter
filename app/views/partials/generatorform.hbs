@@ -1,6 +1,10 @@
 <div class="item form-container">
     <h2>Text Generation</h2>
     <form method="post">
+        <select id="includeWebResult" name="includeWebResult">
+            <option value="no">Web Results Not Included</option>
+            <option value="yes">Web Results Included</option>
+        </select>
         <select id="selectType" name="selectType">
             <option value="rag">With Rag</option>
             <option value="no-rag">Without Rag</option>

@@ -1,5 +1,4 @@
 import { getModels, resultExtractor } from './groqHandler.js';
-import fs from 'fs';
 import fetch from 'node-fetch';
 import markdownit from 'markdown-it';
 
@@ -19,18 +18,18 @@ export const renderHandler = (req, res, next) => {
 export const textgenerationHandler = async (req, res, next) => {
 	const userInput = req.body.userInput;
 	const selectedType = req.body.selectedType;
-	const apiCallResp = await fetch(
-		'http://localhost:3001/get-context?question=' + userInput
-	)
-	const apiResponseContext = await apiCallResp.json();
 	let promptArray;
-	if(selectedType === "rag") {
+	if (selectedType === "rag") {
+		const includeWebResult = req.body.includeWebResult;
+		const url = `http://localhost:3001/get-context?question=${userInput}${(includeWebResult === 'yes') ? '&fromWeb=true' : ''}`;
+		const apiCallResp = await fetch(url);
+		const apiResponseContext = await apiCallResp.json();
 		// example of prompt crafting based on context
 		promptArray = [
 			{
 				role: "system",
 				content: `You are an assistant that use this context for responding.
-				Context: ${apiResponseContext[0]}
+				Context: ${apiResponseContext.join('\n')}
 				
 	
 				Respond to below input using above Context
